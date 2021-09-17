@@ -1,6 +1,7 @@
 package example
 
-import org.junit.jupiter.api.Assertions._
+import java.lang.Throwable
+import java.util.function.Supplier
 
 object Reproducer {
   
@@ -14,4 +15,17 @@ object Reproducer {
 
   //This overload is taking a subclasss of `Throwable`, an `Executable` which is a parameterless SAM returning void, and a `Supplier` returning `String`
   assertThrows(classOf[IllegalArgumentException], () => 3, () => "This is a message")
+
+  def assertThrows[T <: Throwable](clazz: Class[T], executable: Executable): Unit = ???
+
+  def assertThrows[T <: Throwable](clazz: Class[T], executable: Executable, message: String): Unit = ???
+
+  def assertThrows[T <: Throwable](clazz: Class[T], executable: Executable, supplier: Supplier[String]): Unit = ???
+
+  @FunctionalInterface
+  trait Executable {
+    @throws[Throwable]
+    def execute(): Unit
+  }
+
 }
